@@ -11,16 +11,13 @@ headers = {'User-Agent': user_agent}
 response = requests.get(url, headers=headers)
 soup = BeautifulSoup(response.text, "html.parser")
 
-rank = 1
 movies_list = []
 for movie in soup.findAll('div', attrs={'class': 'sc-300a8231-0 gTnHyA cli-children'}):
-    film = {'title': movie.findNext('h3').text,
-            'rank': rank,
+    film = {'title': movie.findNext('h3').text.split(' ', 1)[1],
+            'rank': movie.findNext('h3').text.split('.', 1)[0],
             'date': movie.findNext('span', attrs={'class': 'sc-300a8231-7 eaXxft cli-title-metadata-item'}).text,
             'duration': movie.find('div', class_='sc-300a8231-6 dBUjvq cli-title-metadata').find_all('span')[1].text,
             'rating': movie.findNext('span', attrs={'class': 'ipc-rating-star--rating'}).text}
-    rank += 1
-    film['title'] = film['title'].split(' ', 1)[1]
     movies_list.append(film)
 
 print(movies_list)
