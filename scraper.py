@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
-import re
-import pandas as pd
+# import re
+# import pandas as pd
 
 # Downloading imdb top 250 movie's data
 url = 'https://www.imdb.com/chart/top/'
