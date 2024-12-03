@@ -9,7 +9,18 @@ user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTM
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36'}
 response = requests.get(url, headers=headers)
 # print(response.content)
+# soup = BeautifulSoup(response.content, 'html5lib')
 soup = BeautifulSoup(response.text, "html.parser")
+# print(soup.prettify())
+
+movies_list = []
+table = soup.find('li', attrs={'class': 'ipc-metadata-list-summary-item sc-4929eaf6-0 DLYcv cli-parent'})
+# print(table.prettify())
+for row in table.find('div', attrs={'class': 'sc-300a8231-0 gTnHyA cli-children'}):
+    movies = {}
+    movies['title'] = row.find('h3', class_='ipc-title__text').text
+    print(movies)
+    # print(row.prettify())
 
 movies = soup.select('td.titleColumn')
 crew = [a.attrs.get('title') for a in soup.select('td.titleColumn a')]
